@@ -88,7 +88,24 @@ col1.metric("💰 Revenue", f"${total_revenue:,.0f}")
 col2.metric("📦 Units Sold", f"{total_units:,}")
 col3.metric("🔥 Trend Score", f"{avg_trend:.1f}")
 col4.metric("🏆 Top Product", top_product)
+# ---------------- WAVY GRAPH ----------------
+st.subheader("🌊 Revenue Wave Analysis")
 
+wave_df = filtered_df.sort_values("Estimated_Revenue_in_2025_USD")
+
+wave_df["Index"] = range(len(wave_df))
+
+import plotly.express as px
+fig_wave = px.line(
+    wave_df,
+    x="Index",
+    y="Estimated_Revenue_in_2025_USD",
+    line_shape="spline"
+)
+
+fig_wave.update_traces(mode="lines+markers")
+
+st.plotly_chart(fig_wave, width="stretch")
 # ---------------- TOP PRODUCTS FIX ----------------
 st.subheader("🏆 Top Products by Revenue")
 
